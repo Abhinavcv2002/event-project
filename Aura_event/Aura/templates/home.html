@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>sample-page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+    
+  .carousel-inner img {
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+      min-height:200px;
+  }
+
+  /* Hide the carousel text when the screen is less than 600 pixels wide */
+  @media (max-width: 600px) {
+    .carousel-caption {
+      display: none; 
+    }
+  }
+  </style>
+</head>
+<body>
+  
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="{% url 'home' %}">Aura_event</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav">
+        <li><a href="#">Cart</a></li>
+        </ul>
+        <li><a href="{% url 'signin' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <a href="#"><img src="../static/photos/Sunglasses_Desktop.webp" alt="Image"></a>
+        <div class="carousel-caption">
+        </div>      
+      </div>
+
+      <div class="item">
+        <a href="#"><img src="../static/photos/Eyeglasses_Desktop.webp" alt="Image"></a>
+        <div class="carousel-caption">
+        </div>      
+      </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+</div>
+  
+<div class="container text-center">    
+  <h3>What We Do</h3><br>
+  <div class="row">
+    <div class="col-sm-6">
+      <img src="../static/photos/EyeglassesWomen.jpg" class="img-responsive" style="width:100%" alt="Image">
+      <p>Current Project</p>
+    </div>
+    <div class="col-sm-6"> 
+      <img src="../static/photos/EyeglassesMen.jpg" class="img-responsive" style="width:100%" alt="Image">
+      <p>Project 2</p>    
+    </div>
+  </div>
+</div><br>
+
+<div><img src="../static/photos/OFFER-STRIP.jpg " class="img-responsive" style="width: 100%;" alt="no img"></div>
+
+
+<div class="container text-center">    
+  <h3>What We Do</h3><br>
+  {% for i in product %}
+  <div class="row">
+    <div class="col-sm-4">
+      <img src="{{i.image.url}}" class="img-responsive" style="width:100%" alt="no Image">
+      <p>Current Project</p>
+    </div>
+    {% endfor %}
+    <div class="col-sm-4"> 
+      <img src="../static/photos/EyeglassesMen.jpg" class="img-responsive" style="width:100%" alt="Image">
+      <p>Project 2</p>    
+    </div>
+    <div class="col-sm-4"> 
+      <img src="../static/photos/SunglassesWomen.jpg" class="img-responsive" style="width:100%" alt="Image">
+      <p>Project 2</p>    
+    </div>
+    <div class="col-sm-4"> 
+      <img src="../static/photos/SunglassesWomen.jpg" class="img-responsive" style="width:100%" alt="Image">
+      <p>Project 2</p>    
+    </div>
+    <div class="col-sm-4"> 
+      <img src="../static/photos/SunglassesWomen.jpg" class="img-responsive" style="width:100%" alt="Image">
+      <p>Project 2</p>    
+    </div>
+    <div class="col-sm-4"> 
+      <img src="{}" class="img-responsive" style="width:100%" alt="Image">
+      <p>Project 2</p>    
+    </div>
+  </div>
+</div><br>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+
+<div class="container my-5">
+
+  <!-- Footer -->
+  <footer
+          class="text-center text-lg-start text-white"
+          style="background-color: #1c2331"
+          >
+    <!-- Section: Social media -->
+    <section
+             class="d-flex justify-content-between p-4"
+             style="background-color: #6351ce"
+             >
+      <!-- Left -->
+      <div class="me-5">
+        <span>Get connected with us on social networks:</span>
+      </div>
+      <!-- Left -->
+
+      <!-- Right -->
+      <div>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-google"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <!-- Right -->
+    </section>
+    <!-- Section: Social media -->
+
+    <!-- Section: Links  -->
+    <section class="">
+      <div class="container text-center text-md-start mt-5">
+        <!-- Grid row -->
+        <div class="row mt-3">
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            <!-- Content -->
+            <h6 class="text-uppercase fw-bold">Company name</h6>
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+            <p>
+              Here you can use rows and columns to organize your footer
+              content. Lorem ipsum dolor sit amet, consectetur adipisicing
+              elit.
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold">Products</h6>
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+            <p>
+              <a href="#!" class="text-white">MDBootstrap</a>
+            </p>
+            <p>
+              <a href="#!" class="text-white">MDWordPress</a>
+            </p>
+            <p>
+              <a href="#!" class="text-white">BrandFlow</a>
+            </p>
+            <p>
+              <a href="#!" class="text-white">Bootstrap Angular</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold">Useful links</h6>
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+            <p>
+              <a href="#!" class="text-white">Your Account</a>
+            </p>
+            <p>
+              <a href="#!" class="text-white">Become an Affiliate</a>
+            </p>
+            <p>
+              <a href="#!" class="text-white">Shipping Rates</a>
+            </p>
+            <p>
+              <a href="#!" class="text-white">Help</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold">Contact</h6>
+            <hr
+                class="mb-4 mt-0 d-inline-block mx-auto"
+                style="width: 60px; background-color: #7c4dff; height: 2px"
+                />
+            <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+            <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
+            <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+            <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+      </div>
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div
+         class="text-center p-3"
+         style="background-color: rgba(0, 0, 0, 0.2)"
+         >
+      © 2020 Copyright:
+      <a class="text-white" href="https://mdbootstrap.com/"
+         >MDBootstrap.com</a
+        >
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+
+</div>
+<!-- End of .container -->
+</body>
+</html>
