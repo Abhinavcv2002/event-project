@@ -1,299 +1,1102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>sample-page</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <style>
-    /* Remove the navbar's default margin-bottom and rounded borders */ 
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-    }
-
-    /* Add a gray background color and some padding to the footer */
-    footer {
-      background-color: #f2f2f2;
-      padding: 25px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Event Management </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --accent-color: #ffeaa7;
+            --light-bg: #fff5e6;
+            --dark-text: #2d3436;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        /* Hero Section Styles */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 60px;
+            width: 300px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        } 
     
-  .carousel-inner img {
-      width: 100%; /* Set width to 100% */
-      margin: auto;
-      min-height:200px;
-  }
+        .hero-content {
+            padding-top: 120px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pre-heading {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .main-heading {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+        
+        .sub-heading {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+        
+        .social-icons {
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .contact-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn:hover {
+            background-color: #7d2da8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .main-heading {
+                font-size: 2.8rem;
+            }
+            
+            .hero-content {
+                padding-top: 100px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-heading {
+                font-size: 2.2rem;
+            }
+            
+            .pre-heading, .sub-heading {
+                font-size: 1rem;
+            }
+            
+            .navbar-collapse {
+                background-color: rgba(0, 0, 0, 0.9);
+                padding: 15px;
+                border-radius: 8px;
+            }
+            
+            .hero-content {
+                padding-top: 80px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-heading {
+                font-size: 1.8rem;
+            }
+            
+            .pre-heading, .sub-heading {
+                font-size: 0.9rem;
+            }
+            
+            .hero-section {
+                min-height: 500px;
+            }
+            
+            .contact-btn {
+                padding: 10px 25px;
+            }
+            
+            .social-icons a {
+                width: 35px;
+                height: 35px;
+                margin-right: 10px;
+            }
+        }
+        /* ------ */
+        .hero-second {
+            padding: 80px 0;
+            background-color: #fff;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(135deg, #000000, #fff5e6, #000000);
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #5549d1;
+            border-color: #5549d1;
+        }
+        
+        .btn-success {
+            background-color: #00b894;
+            border-color: #00b894;
+        }
+        
+        .btn-success:hover {
+            background-color: #00a383;
+            border-color: #00a383;
+        }
 
-  /* Hide the carousel text when the screen is less than 600 pixels wide */
-  @media (max-width: 600px) {
-    .carousel-caption {
-      display: none; 
-    }
-  }
-  </style>
+        .card-title a {
+            text-decoration: none;
+            color: inherit; 
+        }
+        
+        .event-card {
+            text-decoration: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-img-container {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .event-card:hover .card-img-container img {
+            transform: scale(1.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-section {
+            background-color: #fff;
+            padding: 80px 0;
+        }
+        
+        .testimonial-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        
+        .customer-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .quote-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            opacity: 0.3;
+        }
+        /* ---------- */
+        .testimonial-section {
+            padding: 60px 0;
+        }
+        
+        .testimonial-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            height: 100%;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .google-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 20px;
+        }
+        
+        .rating {
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-text {
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+        
+        .client-profile {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .profile-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        .profile-p {
+            background-color: #673AB7;
+        }
+        
+        .profile-s {
+            background-color: #673AB7;
+        }
+        
+        .client-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .client-name {
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+        
+        .client-date {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;
+            opacity: 1;
+        }
+        
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #ddd;
+            border-radius: 50%;
+            padding: 20px;
+        }
+        
+        @media (max-width: 767px) {
+            .testimonial-card {
+                margin-bottom: 20px;
+            }
+        }
+
+        /* --------- */
+        
+        .footer-section {
+            background: linear-gradient(135deg, #000000, #151517af);
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-heading {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-logo {
+            width: 100%;
+            max-width: 440px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-bottom-links a:hover {
+            color: #fff;
+        }
+        
+        .logo-container {
+            /* background-color: #1c1c1c; */
+            padding: 0px;
+            border-radius: 5px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 767px) {
+            .footer-column {
+                margin-bottom: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+            }
+            
+            .footer-bottom-links {
+                margin-top: 15px;
+            }
+            
+            .logo-container {
+                margin-top: 30px;
+            }
+        } 
+        /* ------- */
+        
+        .social-icons a {
+            color: #fff;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        
+        .contact-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #25D366;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .contact-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .contact-btn i {
+            color: #fff;
+            font-size: 1.8rem;
+        }
+
+        .image-container {
+            position: relative;
+            border-radius: 40px;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .hero-second {
+                padding: 50px 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .feature-icon {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="{% url 'home' %}">Aura_event</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <ul class="nav navbar-nav">
-        <li><a href="#">Cart</a></li>
-        </ul>
-        <li><a href="{% url 'signin' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-      <div class="item active">
-        <a href="#"><img src="../static/photos/wed-slide.jpg" alt="Image"></a>
-        <div class="carousel-caption">
-        </div>      
+    <!-- Hero Section with Background Image -->
+    <section id="home" class="hero-section">
+        <!-- Background Image -->
+        <img src="../static/photos/wed-slide.jpg" alt="Wedding Ceremony" class="hero-bg">
+        
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}"  >
+                    <img src="../static/photos/Aura_event 1.png" alt="Event Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'about' %}">
+                                ABOUT US
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#services" role="button" data-bs-toggle="dropdown" aria-expanded="false">SERVICES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'gallery' %}">GALLERY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'contact' %}">CONTACT US</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signout' %}">LOGOUT</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signin' %}">LOGIN</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Hero Content -->
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="pre-heading">TAKE A TRIP INTO PARADISE</div>
+                    <h1 class="main-heading">Partner with Aura Event<br>Event Management in<br>Kerala</h1>
+                    <div class="sub-heading">KERALA'S #1 EXCLUSIVE EVENT</div>
+                    
+                    <div class="social-icons">
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <i class="bi bi-mouse text-white fs-2"></i>
+        </div>
+    </section>
+    
+    <section class="hero-second">
+      <div class="container">
+          <div class="row align-items-center">
+              <div class="col-lg-6 mb-4 mb-lg-0">
+                  <h1 class="mb-4">CERTIFIED EVENT MANAGEMENT IN KERALA</h1>
+                  <p class="lead mb-4">Have you ever dreamed of planning the perfect event that will be remembered forever? Look no further than Aura ® Event Management, the top-notch event management company in Kerala, India, that has everything you need to make your occasion an unforgettable experience.</p>
+                  <p class="mb-4">We make everything from corporate event planning and grand personal celebrations to small, customized event packages absolutely memorable! Contact us today to learn more about our services and how we can help you organize the top event management in Kerala.</p>
+ 
+              </div>
+              <div class="col-lg-6">
+                  <div class="image-container">
+                      <img src="../static/photos/Event decoration.jpeg" alt="Event decoration" class="img-fluid rounded">
+                  </div>
+              </div>
+          </div>
       </div>
+  </section>
 
-      <div class="item active">
-        <a href="#"><img src="../static/photos/wed-slide.jpg" alt="Image"></a>
-        <div class="carousel-caption">
-        </div>      
+  <!-- Services Section -->
+  <section id="services" class="py-5">
+      <div class="container">
+          <div class="text-center mb-5">
+              <h2 class="section-title">Our Services</h2>
+              <p class="lead">Comprehensive Event Management Solutions</p>
+          </div>
+          <div class="row g-4">
+              <div class="col-md-4">
+                  <div class="card event-card">
+                    <a href="#">
+                      <div class="card-img-container">
+                          <img src="../static/photos/Corporate Events.jpg" alt="Corporate Events" class="card-img-top">
+                      </div>
+                    </a>    
+                      <div class="card-body">
+                          <h5 class="card-title">Corporate Events</h5>
+                          <p class="card-text">From product launches to annual meetings, we handle all aspects of your corporate events with professionalism.</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div class="card event-card">
+                    <a href="{% url 'weding' %}">
+                      <div class="card-img-container">
+                          <img src="../static/photos/Weddings.jpg" alt="Weddings" class="card-img-top">
+                      </div>
+                    </a>
+                      <div class="card-body">
+                          <h5 class="card-title">Wedding Management</h5>
+                          <p class="card-text">We create magical weddings that reflect your personality and culture, managing every detail from start to finish.</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div class="card event-card">
+                    <a href="#">
+                      <div class="card-img-container">
+                          <img src="../static/photos/Birthday Parties.webp" alt="Birthday Parties" class="card-img-top">
+                      </div>
+                    </a>
+                      <div class="card-body">
+                          <h5 class="card-title">Birthday Parties</h5>
+                          <p class="card-text">Birthday parties, anniversaries, and family reunions become special memories with our expert planning.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row mt-5">
+              <div class="col-md-4 mb-4">
+                  <div class="text-center">
+                      <div class="feature-icon">
+                          <i class="fas fa-check-circle"></i>
+                      </div>
+                      <h4>ISO 9001:2015 Certified</h4>
+                      <p>We maintain the highest standards in the event management industry.</p>
+                  </div>
+              </div>
+              <div class="col-md-4 mb-4">
+                  <div class="text-center">
+                      <div class="feature-icon">
+                          <i class="fas fa-users"></i>
+                      </div>
+                      <h4>Experienced Team</h4>
+                      <p>Our skilled professionals have years of experience in organizing memorable events.</p>
+                  </div>
+              </div>
+              <div class="col-md-4 mb-4">
+                  <div class="text-center">
+                      <div class="feature-icon">
+                          <i class="fas fa-handshake"></i>
+                      </div>
+                      <h4>Personalized Service</h4>
+                      <p>We listen to your needs and craft experiences that match your vision.</p>
+                  </div>
+              </div>
+          </div>
       </div>
+  </section>
 
-      <div class="item">
-        <a href="#"><img src="../static/photos/wed-slide1.jpg" alt="Image"></a>
-        <div class="carousel-caption">
-        </div>      
+  <!-- Wedding Section -->
+  <section id="weddings" class="py-5 bg-white">
+      <div class="container">
+          <div class="row align-items-center">
+              <div class="col-lg-6 mb-4 mb-lg-0">
+                  <h2 class="section-title">UNLOCK YOUR DREAM DESTINATION WEDDING IN KERALA</h2>
+                  <p class="lead mb-4">Choose Aura Event Management for your premium destination events in Kerala, India. Whether you dream of a beach frontage event in Kerala or a resort celebration, we will bring it to life, infusing rich traditions.</p>
+                  <p class="mb-4">We also offer venue selection assistance and booking services to facilitate an easier planning process.</p>
+                  <p>Our track record includes clients from India and abroad, making us your ideal partner for a dream destination wedding in Kerala, India.</p>
+              </div>
+              <div class="col-lg-6">
+                  <div class="row g-3">
+                      <div class="col-6">
+                          <img src="../static/photos/wedding decoration.webp" alt="Wedding decoration" class="img-fluid rounded">
+                      </div>
+                      <div class="col-6">
+                          <img src="../static/photos/Bride.webp" alt="Bride" class="img-fluid rounded">
+                      </div>
+                      <div class="col-6 mt-3">
+                          <img src="../static/photos/Wedding ceremony.webp" alt="Wedding ceremony" class="img-fluid rounded">
+                      </div>
+                      <div class="col-6 mt-3">
+                          <img src="../static/photos/Reception.jpg" alt="Reception" class="img-fluid rounded">
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
-    </div>
+  </section>
 
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-</div>
-  
-<div class="container text-center">    
-  <h3>What We Do</h3><br>
-  <div class="row">
-    <div class="col-sm-6">
-      <img src="../static/photos/EyeglassesWomen.jpg" class="img-responsive" style="width:100%" alt="Image">
-      <p>Current Project</p>
-    </div>
-    <div class="col-sm-6"> 
-      <img src="../static/photos/EyeglassesMen.jpg" class="img-responsive" style="width:100%" alt="Image">
-      <p>Project 2</p>    
-    </div>
-  </div>
-</div><br>
+  <!-- Gallery Section -->
+  <section id="gallery" class="py-5">
+      <div class="container">
+          <div class="text-center mb-5">
+              <h2 class="section-title">Event Gallery</h2>
+              <p class="lead">Glimpses of Our Memorable Events</p>
+          </div>
+          <div class="row g-3">
+              <div class="col-md-4 col-6">
+                  <img src="../static/photos/Birthday Parties.webp" alt="Event 1" class="img-fluid rounded">
+              </div>
+              <div class="col-md-4 col-6">
+                  <img src="../static/photos/Bride.webp" alt="Event 2" class="img-fluid rounded">
+              </div>
+              <div class="col-md-4 col-6">
+                  <img src="../static/photos/Wedding ceremony.webp" alt="Event 3" class="img-fluid rounded">
+              </div>
+              <div class="col-md-4 col-6 mt-3">
+                  <img src="../static/photos/Event decoration.jpeg" alt="Event 4" class="img-fluid rounded">
+              </div>
+              <div class="col-md-4 col-6 mt-3">
+                  <img src="../static/photos/Reception.jpg" alt="Event 5" class="img-fluid rounded">
+              </div>
+              <div class="col-md-4 col-6 mt-3">
+                  <img src="../static/photos/wedding decoration.webp" alt="Event 6" class="img-fluid rounded">
+              </div>
+          </div>
+          <div class="text-center mt-4">
+              <a href="{% url 'gallery' %}" class="btn btn-outline-primary">View More</a>
+          </div>
+      </div>
+  </section>
 
-<div><img src="../static/photos/OFFER-STRIP.jpg " class="img-responsive" style="width: 100%;" alt="no img"></div>
+  <section class="testimonial-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h5 class="section-title">CLIENT TESTIMONIALS</h5>
+            <p class="lead">See What our Clients has to Say</p>
+        </div>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- First Slide -->
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="testimonial-card">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="testimonial-text">
+                                    <p>In my point of view best event management in Thrissur and very good wedding planner in Kerala</p>
+                                </div>
+                                <div class="client-profile">
+                                    <div class="profile-circle profile-p">P</div>
+                                    <div class="client-info">
+                                        <p class="client-name">PINDIYAN ANTONY</p>
+                                        <p class="client-date">2023-04-14</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="testimonial-card">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="testimonial-text">
+                                    <p>Very good event management company Kerala. We had a wedding last year. The wedding was wonderful in Thrissur. Thanks mMelodia event management.</p>
+                                </div>
+                                <div class="client-profile">
+                                    <div class="profile-circle profile-s">S</div>
+                                    <div class="client-info">
+                                        <p class="client-name">Saleena Devassy</p>
+                                        <p class="client-date">2023-04-12</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="testimonial-card">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="testimonial-text">
+                                    <p>Melodia Events is very good event management in Thrissur. My daughter's wedding was amazing with this company. We recommending to every one this group. We...</p>
+                                    <a href="#" class="text-decoration-none">Read more</a>
+                                </div>
+                                <div class="client-profile">
+                                    <div class="profile-circle" style="background-color: #FF5722;">P</div>
+                                    <div class="client-info">
+                                        <p class="client-name">Peter K P</p>
+                                        <p class="client-date">2023-04-09</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second Slide (Additional testimonials) -->
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="testimonial-card">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="testimonial-text">
+                                    <p>Amazing team of professionals. They made our corporate event so special and stress-free.</p>
+                                </div>
+                                <div class="client-profile">
+                                    <div class="profile-circle" style="background-color: #2196F3;">J</div>
+                                    <div class="client-info">
+                                        <p class="client-name">James Thomas</p>
+                                        <p class="client-date">2023-03-28</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="testimonial-card">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="testimonial-text">
+                                    <p>Perfect execution and great attention to detail. Highly recommend their services for any event in Kerala.</p>
+                                </div>
+                                <div class="client-profile">
+                                    <div class="profile-circle" style="background-color: #4CAF50;">M</div>
+                                    <div class="client-info">
+                                        <p class="client-name">Maya Krishnan</p>
+                                        <p class="client-date">2023-03-15</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="testimonial-card">
+                                    <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="testimonial-text">
+                                    <p>The best decision we made for our wedding was hiring this team. Exceptional service and dedication.</p>
+                                </div>
+                                <div class="client-profile">
+                                    <div class="profile-circle" style="background-color: #FF9800;">R</div>
+                                    <div class="client-info">
+                                        <p class="client-name">Rahul Menon</p>
+                                        <p class="client-date">2023-03-02</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
 
+  <!-- Contact Section -->
+  <section id="contact" class="py-5 bg-white">
+      <div class="container">
+          <div class="text-center mb-5">
+              <h2 class="section-title">Contact Us</h2>
+              <p class="lead">Get in Touch for Your Next Event</p>
+          </div>
+          <div class="row">
+              <div class="col-lg-6 mb-4 mb-lg-0">
+                  <form>
+                      <div class="mb-3">
+                          <input type="text" class="form-control" placeholder="Your Name">
+                      </div>
+                      <div class="mb-3">
+                          <input type="email" class="form-control" placeholder="Your Email">
+                      </div>
+                      <div class="mb-3">
+                          <input type="tel" class="form-control" placeholder="Your Phone">
+                      </div>
+                      <div class="mb-3">
+                          <select class="form-select">
+                              <option selected>Select Event Type</option>
+                              <option>Wedding</option>
+                              <option>Corporate Event</option>
+                              <option>Birthday Party</option>
+                              <option>Anniversary</option>
+                              <option>Other</option>
+                          </select>
+                      </div>
+                      <div class="mb-3">
+                          <textarea class="form-control" rows="5" placeholder="Your Message"></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+              </div>
+              <div class="col-lg-6">
+                  <div class="ps-lg-4">
+                      <div class="mb-4">
+                          <h4 class="mb-3">Address</h4>
+                          <p>123 Main Street, Kochi, Kerala, India - 682001</p>
+                      </div>
+                      <div class="mb-4">
+                          <h4 class="mb-3">Email</h4>
+                          <p>info@melodiaevents.com</p>
+                      </div>
+                      <div class="mb-4">
+                          <h4 class="mb-3">Phone</h4>
+                          <p>+91 98765 43210</p>
+                      </div>
+                      <div class="mb-4">
+                          <h4 class="mb-3">Follow Us</h4>
+                          <div class="social-icons">
+                              <a href="#"><i class="fab fa-facebook-f"></i></a>
+                              <a href="#"><i class="fab fa-instagram"></i></a>
+                              <a href="#"><i class="fab fa-youtube"></i></a>
+                              <a href="#"><i class="fab fa-pinterest"></i></a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
 
-<div class="container text-center">    
-  <h3>What We Do</h3><br>
-  {% for i in product %}
-  <div class="row">
-    <div class="col-sm-4">
-      <img src="{{i.image.url}}" class="img-responsive" style="width:100%" alt="no Image">
-      <p>Current Project</p>
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 footer-column">
+                <h3 class="footer-heading">About Aura Events</h3>
+                <p class="footer-text">
+                    Aura Event Management is Kerala's premier ISO 9001:2015 
+                    certified event management, specializing in weddings, 
+                    corporate events, and personal celebrations.
+                </p>
+            </div>
+            <div class="col-md-3 footer-column">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Weddings</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>            
+            <div class="col-md-5 footer-column">
+                <div class="logo-container">
+                    <img src="../static/photos/Aura_event.png" alt="Aura Event Logo" class="footer-logo">
+                </div>
+            </div>
+        </div>
+\        <div class="row footer-bottom align-items-center">
+            <div class="col-md-6">
+                <p class="copyright mb-md-0">© 2025 Aura Event Management. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
     </div>
-    {% endfor %}
-    <div class="col-sm-4"> 
-      <img src="../static/photos/EyeglassesMen.jpg" class="img-responsive" style="width:100%" alt="Image">
-      <p>Project 2</p>    
-    </div>
-    <div class="col-sm-4"> 
-      <img src="../static/photos/SunglassesWomen.jpg" class="img-responsive" style="width:100%" alt="Image">
-      <p>Project 2</p>    
-    </div>
-    <div class="col-sm-4"> 
-      <img src="../static/photos/SunglassesWomen.jpg" class="img-responsive" style="width:100%" alt="Image">
-      <p>Project 2</p>    
-    </div>
-    <div class="col-sm-4"> 
-      <img src="../static/photos/SunglassesWomen.jpg" class="img-responsive" style="width:100%" alt="Image">
-      <p>Project 2</p>    
-    </div>
-    <div class="col-sm-4"> 
-      <img src="{}" class="img-responsive" style="width:100%" alt="Image">
-      <p>Project 2</p>    
-    </div>
-  </div>
-</div><br>
-
-<footer class="container-fluid text-center">
-  <p>Footer Text</p>
 </footer>
 
-<div class="container my-5">
-
-  <!-- Footer -->
-  <footer
-          class="text-center text-lg-start text-white"
-          style="background-color: #1c2331"
-          >
-    <!-- Section: Social media -->
-    <section
-             class="d-flex justify-content-between p-4"
-             style="background-color: #6351ce"
-             >
-      <!-- Left -->
-      <div class="me-5">
-        <span>Get connected with us on social networks:</span>
-      </div>
-      <!-- Left -->
-
-      <!-- Right -->
-      <div>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-google"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
-      <!-- Right -->
-    </section>
-    <!-- Section: Social media -->
-
-    <!-- Section: Links  -->
-    <section class="">
-      <div class="container text-center text-md-start mt-5">
-        <!-- Grid row -->
-        <div class="row mt-3">
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-            <!-- Content -->
-            <h6 class="text-uppercase fw-bold">Company name</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              Here you can use rows and columns to organize your footer
-              content. Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit.
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Products</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              <a href="#!" class="text-white">MDBootstrap</a>
-            </p>
-            <p>
-              <a href="#!" class="text-white">MDWordPress</a>
-            </p>
-            <p>
-              <a href="#!" class="text-white">BrandFlow</a>
-            </p>
-            <p>
-              <a href="#!" class="text-white">Bootstrap Angular</a>
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Useful links</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p>
-              <a href="#!" class="text-white">Your Account</a>
-            </p>
-            <p>
-              <a href="#!" class="text-white">Become an Affiliate</a>
-            </p>
-            <p>
-              <a href="#!" class="text-white">Shipping Rates</a>
-            </p>
-            <p>
-              <a href="#!" class="text-white">Help</a>
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold">Contact</h6>
-            <hr
-                class="mb-4 mt-0 d-inline-block mx-auto"
-                style="width: 60px; background-color: #7c4dff; height: 2px"
-                />
-            <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-            <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
-            <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
-            <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
-          </div>
-          <!-- Grid column -->
-        </div>
-        <!-- Grid row -->
-      </div>
-    </section>
-    <!-- Section: Links  -->
-
-    <!-- Copyright -->
-    <div
-         class="text-center p-3"
-         style="background-color: rgba(0, 0, 0, 0.2)"
-         >
-      © 2020 Copyright:
-      <a class="text-white" href="https://mdbootstrap.com/"
-         >MDBootstrap.com</a
-        >
-    </div>
-    <!-- Copyright -->
-  </footer>
-  <!-- Footer -->
-
-</div>
-<!-- End of .container -->
+  <!-- Bootstrap & jQuery JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+  <script>
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+              e.preventDefault();
+              
+              document.querySelector(this.getAttribute('href')).scrollIntoView({
+                  behavior: 'smooth'
+              });
+          });
+      });
+      
+      // Initialize tooltips
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+      });
+      
+      // Play button functionality (for demo - would connect to video player in production)
+      document.querySelector('.play-btn').addEventListener('click', function() {
+          alert('Video player would open here');
+      });
+  </script>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 

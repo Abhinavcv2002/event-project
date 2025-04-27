@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura_event-About</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --accent-color: #ffeaa7;
+            --light-bg: #fff5e6;
+            --dark-text: #2d3436;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        /* Hero Section Styles */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 60px;
+            width: 300px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        } 
+    
+        .hero-content {
+            padding-top: 120px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .main-heading {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-top: 200px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+        
+        .sub-heading {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+        
+        .social-icons {
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .contact-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn:hover {
+            background-color: #7d2da8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .main-heading {
+                font-size: 2.8rem;
+            }
+            
+            .hero-content {
+                padding-top: 100px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-heading {
+                font-size: 2.2rem;
+            }
+            
+            .sub-heading {
+                font-size: 1rem;
+            }
+            
+            .navbar-collapse {
+                background-color: rgba(0, 0, 0, 0.9);
+                padding: 15px;
+                border-radius: 8px;
+            }
+            
+            .hero-content {
+                padding-top: 80px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-heading {
+                font-size: 1.8rem;
+            }
+            
+            .sub-heading {
+                font-size: 0.9rem;
+            }
+            
+            .hero-section {
+                min-height: 500px;
+            }
+            
+            .contact-btn {
+                padding: 10px 25px;
+            }
+            
+            .social-icons a {
+                width: 35px;
+                height: 35px;
+                margin-right: 10px;
+            }
+        }
+
+        /* ----------- */
+        .about-header {
+            padding: 80px 0 40px;
+            background-color: #f9f9f9;
+        }
+
+        .about-section {
+            padding: 60px 0;
+        }
+        
+        .vision-mission-section {
+            padding: 60px 0;
+        }
+        
+        .vision-card, .mission-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .vision-card:hover, .mission-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .icon-box i {
+            color: #fff;
+            font-size: 2rem;
+        }
+        
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-links a {
+            color: #dfe6e9;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-icons a {
+            color: #fff;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        
+        .contact-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #25D366;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .contact-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .contact-btn i {
+            color: #fff;
+            font-size: 1.8rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #731f70;
+            border-color: #731f70;
+        }
+        
+        .breadcrumb {
+            background-color: transparent;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: calc(100% - 10px);
+            width: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -39px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .about-header {
+                padding: 50px 0 30px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+        }
+        /* ----- */
+        .footer-section {
+            background: linear-gradient(135deg, #000000, #151517af);
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-heading {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-logo {
+            width: 100%;
+            max-width: 440px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-bottom-links a:hover {
+            color: #fff;
+        }
+        
+        .logo-container {
+            /* background-color: #1c1c1c; */
+            padding: 0px;
+            border-radius: 5px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 767px) {
+            .footer-column {
+                margin-bottom: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+            }
+            
+            .footer-bottom-links {
+                margin-top: 15px;
+            }
+            
+            .logo-container {
+                margin-top: 30px;
+            }
+        } 
+    </style>
+</head>
+<body>
+    <section id="home" class="hero-section">
+        <!-- Background Image -->
+        <img src="../static/photos/Weddings.jpg" alt="Wedding Ceremony" class="hero-bg">
+        
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}"  >
+                    <img src="../static/photos/Aura_event 1.png" alt="Event Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'home' %}">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ABOUT US
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                SERVICES
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                GALLERY
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">CONTACT US</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'signout' %}">LOGOUT</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'signin' %}">LOGIN</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Hero Content -->
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="main-heading">About Aura Event<br>Management</h1>
+                    <div class="sub-heading">From concept to execution, Kerala’s premier event management<br> delivers flawless experiences tailored to your unique vision.</div>
+
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <i class="bi bi-mouse text-white fs-2"></i>
+        </div>
+    </section>
+
+    <section class="about-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <img src="../static/photos/Aura_event.png" alt="Event Logo" class="img-fluid">
+                </div>
+                <div class="col-lg-7">
+                    <h1 class="mb-4">Welcome to Aura Event Management</h1>
+                    <p class="lead">We are an ISO 9001:2015-certified event management based in Kerala, with over 15 years of experience in the event management industry in Kerala.</p>
+                    <p>Aura Event Management specializes in wedding event management, as well as a wide range of corporate, personal, regional, public, and private event management services—creating lasting memories for thousands of clients in the Malayalam community in Kerala and for those seeking <span class="highlight">destination weddings in Kerala</span> from other states of India and abroad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Company Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title">Our Story</h2>
+                    <p>Since 2010-2011, we have successfully organized over 350 weddings, 50 corporate events, 10 inaugurations, and 110 other private events. In 2025, we are committed to delivering 100 more exceptional events as we continue to grow and serve our clients with excellence.</p>
+                    
+                    <p>Additionally, the brand name Aura Event Management is often referred to interchangeably as Aura, Event by Aura, or Aura Events by clients and customers. however, our official name remains Aura Event Management. We mainly serve in God's Own Country as a specialized event management for Kerala's event management services.</p>
+                    
+                    <p>In 2008, our venture was initiated in Kuriachira, Thrissur. Initially, we handled event management tasks primarily in regions close to Thrissur and its surroundings. Our hard work has enabled us to expand from the neighborhoods of Thrissur to the popular territories of Cochin. Compared to other cities, we are now providing more services in Ernakulam (Kochi) through our own production house, a trend that has continued over the last five years. What started as a small firm has now expanded into a multi-facility event management service across Kerala.</p>
+                    
+                    <p>We proudly serve all of Kerala, from bustling cities to serene villages, as one of the few Kerala-owned event management fully dedicated to the state. Deeply rooted in Kerala's rich culture and traditions, we specialize in creating unforgettable events—whether for the Malayalam community, on Kerala soil or destination weddings for guests from across India and beyond. With extensive experience in event management, we bring expertise and passion to every celebration.</p>
+                    
+                    <p>Today, in 2025, Aura Event Management is strongly represented in Thrissur, Kozhikode (Calicut), Trivandrum, Kannur, Kollam, Alleppey (Alappuzha), Kottayam, Palakkad, Malappuram, and Kochi—the ten most dynamic cities of Kerala.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision & Mission -->
+    <section class="vision-mission-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="vision-card">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="icon-box me-3">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h2 class="section-title mb-0">Our Vision</h2>
+                        </div>
+                        <p>At Melodia Event Management, our vision is to become Kerala's leading event management company, dedicated to creating unforgettable experiences for the Malayali community and people who come to host events like destination weddings in Kerala.</p>
+                        <p>We aspire to redefine the event planning industry by offering innovative, creative, and highly personalized services, ensuring that every event, whether in cities, villages, or small towns, reflects the unique traditions and values of Kerala.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mission-card">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="icon-box me-3">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h2 class="section-title mb-0">Our Mission</h2>
+                        </div>
+                        <p>Our mission at Aura Event Management is to provide professional event planning and management services throughout Kerala, from the northern district of Kasaragod to the southern district of Trivandrum, including small cities, big cities, and villages.</p>
+                        <p>We focus on delivering the best possible experience to our clients by combining traditional Kerala values with modern event management techniques, ensuring that each celebration is unique, memorable, and executed to perfection.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h2 class="section-title">Our Journey</h2>
+                    <div class="timeline mt-4">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">2008</div>
+                            <div class="timeline-content">
+                                <p>Founded in Kuriachira, Thrissur by Mr. Mayjohn P J with a vision to transform event management in Kerala.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">2010-2011</div>
+                            <div class="timeline-content">
+                                <p>Transition into a fully functioning organization, establishing our foundation in the industry.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">2015</div>
+                            <div class="timeline-content">
+                                <p>Expanded services to Kochi and established our own production house to enhance service quality.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">2018</div>
+                            <div class="timeline-content">
+                                <p>Achieved ISO 9001:2015 certification, affirming our commitment to quality management.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">2020-2023</div>
+                            <div class="timeline-content">
+                                <p>Further expansion across Kerala, strengthening our presence in ten major cities.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">2025</div>
+                            <div class="timeline-content">
+                                <p>Continuing our growth with a commitment to deliver 150 more exceptional events, maintaining our position as Kerala's premier event management company.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <!-- Footer -->
+      <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 footer-column">
+                    <h3 class="footer-heading">About Aura Events</h3>
+                    <p class="footer-text">
+                        Aura Event Management is Kerala's premier ISO 9001:2015 
+                        certified event management, specializing in weddings, 
+                        corporate events, and personal celebrations.
+                    </p>
+                </div>
+                <div class="col-md-3 footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Weddings</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-5 footer-column">
+                    <div class="logo-container">
+                        <img src="../static/photos/Aura_event.png" alt="Aura Event Logo" class="footer-logo">
+                    </div>
+                </div>
+            </div>
+            <div class="row footer-bottom align-items-center">
+                <div class="col-md-6">
+                    <p class="copyright mb-md-0">© 2025 Aura Event Management. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

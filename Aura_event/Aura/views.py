@@ -58,3 +58,23 @@ def signup(request):
             return redirect('signin')  
 
     return render(request, "signup.html")
+
+def about(request):
+    return render(request, 'about.html')
+
+def signout(request):
+    logout(request)
+    request.session.flush()
+    return redirect('home')
+
+def weding(request):
+    return render(request, 'weding.html')
+
+def contact(request):
+    return render(request, 'contact.html')
+
+def gallery(request):
+    return render(request, 'gallery.html')
+
+def wed_details(request):
+    return render(request, 'wed_details.html')

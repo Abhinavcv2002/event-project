@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Event Management </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --accent-color: #ffeaa7;
+            --light-bg: #fff5e6;
+            --dark-text: #2d3436;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            top: 0;
+            left: 0;
+
+            background: url('../static/photos/Weddings.jpg') center center/cover no-repeat;
+            z-index: 1;
+        }
+        
+        /* Hero Section Styles */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 60px;
+            width: 300px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        } 
+    
+        .hero-content {
+            padding-top: 120px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pre-heading {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .main-heading {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+        
+        .sub-heading {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+        
+        .social-icons {
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .contact-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn:hover {
+            background-color: #7d2da8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        /* ------- */
+        .card-title a {
+            text-decoration: none;
+            color: inherit; 
+        }
+        
+        .event-card {
+            text-decoration: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-img-container {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .event-card:hover .card-img-container img {
+            transform: scale(1.1);
+        }
+
+        /* ------- */
+        
+        .footer-section {
+            background: linear-gradient(135deg, #000000, #151517af);
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-heading {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-logo {
+            width: 100%;
+            max-width: 440px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-bottom-links a:hover {
+            color: #fff;
+        }
+        
+        .logo-container {
+            /* background-color: #1c1c1c; */
+            padding: 0px;
+            border-radius: 5px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 767px) {
+            .footer-column {
+                margin-bottom: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+            }
+            
+            .footer-bottom-links {
+                margin-top: 15px;
+            }
+            
+            .logo-container {
+                margin-top: 30px;
+            }
+        } 
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .main-heading {
+                font-size: 2.8rem;
+            }
+            
+            .hero-content {
+                padding-top: 100px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-heading {
+                font-size: 2.2rem;
+            }
+            
+            .pre-heading, .sub-heading {
+                font-size: 1rem;
+            }
+            
+            .navbar-collapse {
+                background-color: rgba(0, 0, 0, 0.9);
+                padding: 15px;
+                border-radius: 8px;
+            }
+            
+            .hero-content {
+                padding-top: 80px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-heading {
+                font-size: 1.8rem;
+            }
+            
+            .pre-heading, .sub-heading {
+                font-size: 0.9rem;
+            }
+            
+            .hero-section {
+                min-height: 500px;
+            }
+            
+            .contact-btn {
+                padding: 10px 25px;
+            }
+            
+            .social-icons a {
+                width: 35px;
+                height: 35px;
+                margin-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>  
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}"  >
+                    <img src="../static/photos/Aura_event 1.png" alt="Event Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'about' %}">
+                                ABOUT US
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                SERVICES
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                GALLERY
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">CONTACT US</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'signout' %}">LOGOUT</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'signin' %}">LOGIN</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+      <!-- Services Section -->
+  <section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="section-title">Wedding Management</h1>
+            <p class="lead">Comprehensive Event Management Solutions</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card event-card">
+                  <a href="#">
+                    <div class="card-img-container">
+                        <img src="../static/photos/Corporate Events.jpg" alt="Corporate Events" class="card-img-top">
+                    </div>
+                  </a>
+                    <div class="card-body">
+                        <h5 class="card-title">Corporate Events</h5>
+                        <p class="card-text">From product launches to annual meetings, we handle all aspects of your corporate events with professionalism.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card event-card">
+                  <a href="{% url 'wed_details' %}">
+                    <div class="card-img-container">
+                        <img src="../static/photos/Weddings.jpg" alt="Weddings" class="card-img-top">
+                    </div>
+                  </a>
+                    <div class="card-body">
+                        <h5 class="card-title">Wedding Management</h5>
+                        <p class="card-text">We create magical weddings that reflect your personality and culture, managing every detail from start to finish.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card event-card">
+                  <a href="#">
+                    <div class="card-img-container">
+                        <img src="../static/photos/Birthday Parties.webp" alt="Birthday Parties" class="card-img-top">
+                    </div>
+                  </a>
+                    <div class="card-body">
+                        <h5 class="card-title">Birthday Parties</h5>
+                        <p class="card-text">Birthday parties, anniversaries, and family reunions become special memories with our expert planning.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <footer class="footer-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 footer-column">
+                <h3 class="footer-heading">About Aura Events</h3>
+                <p class="footer-text">
+                    Aura Event Management is Kerala's premier ISO 9001:2015 
+                    certified event management, specializing in weddings, 
+                    corporate events, and personal celebrations.
+                </p>
+            </div>
+            <div class="col-md-3 footer-column">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Weddings</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-5 footer-column">
+                <div class="logo-container">
+                    <img src="../static/photos/Aura_event.png" alt="Aura Event Logo" class="footer-logo">
+                </div>
+            </div>
+        </div>
+        <div class="row footer-bottom align-items-center">
+            <div class="col-md-6">
+                <p class="copyright mb-md-0">© 2025 Aura Event Management. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+ </body>
+</html>
