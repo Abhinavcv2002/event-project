@@ -2,10 +2,915 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=h, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villa Pinewood - Property Listing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --accent-color: #ffeaa7;
+            --light-bg: #fff5e6;
+            --dark-text: #2d3436;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        /* Hero Section Styles */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 60px;
+            width: 300px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        } 
+    
+        .hero-content {
+            padding-top: 80px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .main-heading {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+        
+        .sub-heading {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+        
+        .social-icons {
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .contact-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn:hover {
+            background-color: #7d2da8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        .header {
+            background-color: #fff;
+            border-bottom: 1px solid #e9ecef;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container-custom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .property-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .breadcrumb-item {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb-item a {
+            color: #6c757d;
+            text-decoration: none;
+        }
+
+        .main-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.02);
+        }
+
+        .show-all-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 25px 0 15px;
+        }
+
+        .description {
+            line-height: 1.6;
+            color: #495057;
+        }
+
+        .price-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .per-night {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .date-picker {
+            margin: 15px 0;
+        }
+
+        .guests-dropdown {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .book-btn {
+            width: 100%;
+            background-color: #222;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        .chat-btn {
+            width: 100%;
+            background-color: white;
+            color: #222;
+            border: 1px solid #222;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        .host-box {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .host-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .host-details h5 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .host-details p {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .amenity-icon {
+            width: 20px;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        .map-container {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .map-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .distance-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .distance-icon {
+            width: 20px;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        .ratings-box {
+            margin: 30px 0;
+        }
+
+        .rating-number {
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            margin: 5px 0;
+        }
+
+        .rating-count {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .rating-bars {
+            margin: 15px 0;
+        }
+
+        .rating-bar-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .rating-bar-label {
+            width: 15px;
+            margin-right: 10px;
+        }
+
+        .rating-bar-outer {
+            flex-grow: 1;
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .rating-bar-inner {
+            height: 100%;
+            background-color: #333;
+        }
+
+        .rating-bar-count {
+            width: 30px;
+            font-size: 12px;
+            color: #6c757d;
+            text-align: right;
+        }
+
+        .review {
+            border-top: 1px solid #e9ecef;
+            padding: 20px 0;
+        }
+
+        .reviewer-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .reviewer-name {
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+
+        .review-title {
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .review-text {
+            line-height: 1.6;
+            color: #495057;
+        }
+
+        .terms-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .terms-icon {
+            width: 20px;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        @media (max-width: 767px) {
+            .main-img {
+                height: 300px;
+            }
+            
+            .gallery-img {
+                height: 100px;
+                margin-bottom: 10px;
+            }
+            
+            .property-title {
+                font-size: 20px;
+            }
+            
+            .price-box {
+                margin-top: 30px;
+            }
+        }
+        /* -------- */
+        .footer-section {
+            background: linear-gradient(135deg, #000000, #151517af);
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-heading {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-logo {
+            width: 100%;
+            max-width: 440px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-bottom-links a:hover {
+            color: #fff;
+        }
+        
+        .logo-container {
+            /* background-color: #1c1c1c; */
+            padding: 0px;
+            border-radius: 5px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 767px) {
+            .footer-column {
+                margin-bottom: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+            }
+            
+            .footer-bottom-links {
+                margin-top: 15px;
+            }
+            
+            .logo-container {
+                margin-top: 30px;
+            }
+        } 
+        /* -------- */
+    </style>
 </head>
 <body>
-    helo
+    <section id="home" class="hero-section">
+        <!-- Background Image -->
+        <img src="../static/photos/Weddings 2.jpg" alt="Wedding Ceremony" class="hero-bg">
+        
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}"  >
+                    <img src="../static/photos/Aura_event 1.png" alt="Event Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'home' %}">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'about' %}">
+                                ABOUT US
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#Wedding" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                WEDDING FUN
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#Birthday" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                BIRTHDAY PARTY
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#Corporate">CORPORATE EVENT</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signout' %}">LOGOUT</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signin' %}">LOGIN</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Hero Content -->
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="main-heading">Photos Gallery of Aura</h1>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <i class="bi bi-mouse text-white fs-2"></i>
+        </div>
+    </section>
+
+<!-- Main Content -->
+<div class="container-custom mt-4">
+    <!-- Property Title -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h1 class="property-title">Villa Pinewood</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Italy</a></li>
+                    <li class="breadcrumb-item"><a href="#">Private Villa</a></li>
+                    <li class="breadcrumb-item active">Max 8 Guests</li>
+                </ol>
+            </nav>
+        </div>
+        <div>
+            <button class="btn btn-light btn-sm me-2"><i class="fas fa-share-alt"></i></button>
+            <button class="btn btn-light btn-sm"><i class="far fa-bookmark"></i></button>
+            <button class="btn btn-light btn-sm"><i class="fas fa-ellipsis-h"></i></button>
+        </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="row position-relative mb-4">
+        <div class="col-md-7 mb-3 mb-md-0">
+            <img src="../static/photos/wed auditoriam 1.webp" alt="Villa Pinewood Main" class="main-img">
+            <button class="show-all-btn"><i class="fas fa-th me-2"></i> Show All Photos</button>
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-6">
+                    <img src="../static/photos/wed auditoriam 1.webp" alt="Bedroom" class="gallery-img">
+                </div>
+                <div class="col-6">
+                    <img src="../static/photos/wed auditoriam car 1.webp" alt="Bathroom" class="gallery-img">
+                </div>
+                <div class="col-6">
+                    <img src="../static/photos/wed auditoriam fd 1.webp" alt="Kitchen" class="gallery-img">
+                </div>
+                <div class="col-6">
+                    <img src="https://via.placeholder.com/400x300/e8e8e8/888?text=Pool" alt="Pool" class="gallery-img">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <!-- Description -->
+            <h2 class="section-title">Description</h2>
+            <p class="description">
+                Villa Pinewood is a spacious and elegant villa that offers a comfortable and relaxing stay for up to 8 guests. It features 4 bedrooms, 3 bathrooms, a fully-equipped kitchen, and a spacious living room for your comfort. The villa is located on a hilltop, overlooking the beautiful ocean and the lush greenery. It is the perfect place to enjoy the sunrise and the sunset, as well as the fresh breeze and the tranquil atmosphere.
+            </p>
+
+            <!-- Host Info -->
+            <!-- <div class="host-box">
+                <img src="https://via.placeholder.com/100x100/e8e8e8/888?text=Z" alt="Host" class="host-img">
+                <div class="host-details">
+                    <h5>Zeyna Iveline</h5>
+                    <p>Buda · 5 Years Hosting</p>
+                </div>
+            </div> -->
+
+            <!-- Facility -->
+            <h2 class="section-title">Facility</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="amenity-item">
+                        <i class="fas fa-bed amenity-icon"></i>
+                        <span>4 Bedrooms</span>
+                    </div>
+                    <div class="amenity-item">
+                        <i class="fas fa-utensils amenity-icon"></i>
+                        <span>Kitchen</span>
+                    </div>
+                    <div class="amenity-item">
+                        <i class="fas fa-wifi amenity-icon"></i>
+                        <span>WiFi</span>
+                    </div>
+                    <div class="amenity-item">
+                        <i class="fas fa-car amenity-icon"></i>
+                        <span>Parking Area</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="amenity-item">
+                        <i class="fas fa-bath amenity-icon"></i>
+                        <span>3 Bathrooms</span>
+                    </div>
+                    <div class="amenity-item">
+                        <i class="fas fa-couch amenity-icon"></i>
+                        <span>Living Room</span>
+                    </div>
+                    <div class="amenity-item">
+                        <i class="fas fa-swimming-pool amenity-icon"></i>
+                        <span>Private Pool</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <h2 class="section-title">Terms and Conditions</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="terms-item">
+                        <i class="far fa-clock terms-icon"></i>
+                        <span>Check In 02:00 PM and Check Out 12:00 PM</span>
+                    </div>
+                    <div class="terms-item">
+                        <i class="fas fa-paw terms-icon"></i>
+                        <span>No animals allowed</span>
+                    </div>
+                    <div class="terms-item">
+                        <i class="fas fa-users terms-icon"></i>
+                        <span>Maximum 8 guests</span>
+                    </div>
+                    <div class="terms-item">
+                        <i class="fas fa-glass-cheers terms-icon"></i>
+                        <span>No Parties / Event</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location -->
+            <h2 class="section-title">Location</h2>
+            <p>Milano, Lombardia, Italy</p>
+            <div class="map-container">
+                <img src="../static/photos/wed auditoriam car 3.jpg" alt="Map" class="map-img">
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="distance-item">
+                        <i class="fas fa-shopping-basket distance-icon"></i>
+                        <span>10 minutes to supermarket</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="distance-item">
+                        <i class="fas fa-map-marker-alt distance-icon"></i>
+                        <span>Strategic area</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="distance-item">
+                        <i class="fas fa-coffee distance-icon"></i>
+                        <span>15 minutes to coffee shop</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ratings and Reviews -->
+            <h2 class="section-title">Ratings and Reviews</h2>
+            <p class="text-muted">Get a quick overview of the overall satisfaction from our guests</p>
+            
+            <div class="ratings-box">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="rating-number">4.8</div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="rating-count">63 reviews</div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="rating-bars">
+                            <div class="rating-bar-item">
+                                <div class="rating-bar-label">5</div>
+                                <div class="rating-bar-outer">
+                                    <div class="rating-bar-inner" style="width: 80%;"></div>
+                                </div>
+                                <div class="rating-bar-count">(48)</div>
+                            </div>
+                            <div class="rating-bar-item">
+                                <div class="rating-bar-label">4</div>
+                                <div class="rating-bar-outer">
+                                    <div class="rating-bar-inner" style="width: 15%;"></div>
+                                </div>
+                                <div class="rating-bar-count">(9)</div>
+                            </div>
+                            <div class="rating-bar-item">
+                                <div class="rating-bar-label">3</div>
+                                <div class="rating-bar-outer">
+                                    <div class="rating-bar-inner" style="width: 5%;"></div>
+                                </div>
+                                <div class="rating-bar-count">(3)</div>
+                            </div>
+                            <div class="rating-bar-item">
+                                <div class="rating-bar-label">2</div>
+                                <div class="rating-bar-outer">
+                                    <div class="rating-bar-inner" style="width: 3%;"></div>
+                                </div>
+                                <div class="rating-bar-count">(2)</div>
+                            </div>
+                            <div class="rating-bar-item">
+                                <div class="rating-bar-label">1</div>
+                                <div class="rating-bar-outer">
+                                    <div class="rating-bar-inner" style="width: 1%;"></div>
+                                </div>
+                                <div class="rating-bar-count">(1)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="review">
+                <div class="review-header">
+                    <img src="https://via.placeholder.com/100x100/e8e8e8/888?text=R" alt="Reviewer" class="reviewer-img">
+                    <div>
+                        <h5 class="reviewer-name">Ruben Dorwart</h5>
+                    </div>
+                </div>
+                <div class="rating-stars mb-2">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h5 class="review-title">Cozy, Luxurious, Stunning views</h5>
+                <p class="review-text">
+                    We had a wonderful stay at Villa Pinewood. The villa was cozy and luxurious, with everything we needed. The views were stunning, especially in the morning and evening. The hosts were very friendly and helpful. We highly recommend!
+                </p>
+            </div>
+
+            <div class="review">
+                <div class="review-header">
+                    <img src="https://via.placeholder.com/100x100/e8e8e8/888?text=E" alt="Reviewer" class="reviewer-img">
+                    <div>
+                        <h5 class="reviewer-name">Ethan</h5>
+                    </div>
+                </div>
+                <div class="rating-stars mb-2">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h5 class="review-title">Spacious, Elegant, Private pool</h5>
+                <p class="review-text">
+                    The villa was spacious and elegant, with enough room for everyone. The private pool was a big plus, as we could enjoy it anytime we wanted. The only downside was that the villa was far from the beach, but the hosts provided a car service for us.
+                </p>
+            </div>
+
+            <div class="review">
+                <div class="review-header">
+                    <img src="https://via.placeholder.com/100x100/e8e8e8/888?text=E" alt="Reviewer" class="reviewer-img">
+                    <div>
+                        <h5 class="reviewer-name">Emma</h5>
+                    </div>
+                </div>
+                <div class="rating-stars mb-2">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <h5 class="review-title">Minimalist, Panoramic views</h5>
+                <p class="review-text">
+                    The villa was clean and minimalist, with a lot of space and light. The views were panoramic, overlooking the city and ocean. The location was a bit remote, but the water was hot and portable.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 footer-column">
+                <h3 class="footer-heading">About Aura Events</h3>
+                <p class="footer-text">
+                    Aura Event Management is Kerala's premier ISO 9001:2015 
+                    certified event management, specializing in weddings, 
+                    corporate events, and personal celebrations.
+                </p>
+            </div>
+            <div class="col-md-3 footer-column">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Weddings</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-5 footer-column">
+                <div class="logo-container">
+                    <img src="../static/photos/Aura_event.png" alt="Aura Event Logo" class="footer-logo">
+                </div>
+            </div>
+        </div>
+        <div class="row footer-bottom align-items-center">
+            <div class="col-md-6">
+                <p class="copyright mb-md-0">© 2025 Aura Event Management. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
