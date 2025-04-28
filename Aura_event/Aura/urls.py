@@ -12,5 +12,10 @@ urlpatterns = [
     path('contact',views.contact,name='contact'),
     path('gallery',views.gallery,name='gallery'),
     path('wed_details',views.wed_details,name='wed_details'),
+    path('cop_event',views.cop_event,name='cop_event'),
+    path('cop_details',views.cop_details,name='cop_details'),
+    path('birthday',views.birthday,name='birthday'),
+    path('birthday_details',views.birthday_details,name='birthday_details'),
 
+    path('admin_page',views.admin_page,name='admin_page'),
 ]

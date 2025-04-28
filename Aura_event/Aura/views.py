@@ -78,3 +78,18 @@ def gallery(request):
 
 def wed_details(request):
     return render(request, 'wed_details.html')
+
+def cop_event(request):
+    return render(request, 'cop_event.html')
+
+def cop_details(request):
+    return render(request, 'cop_details.html')
+
+def birthday(request):
+    return render(request, 'birthday.html')
+
+def birthday_details(request):
+    return render(request, 'birthday_details.html')
+
+def admin_page(request):
+    return render(request, 'admin_page.html')
