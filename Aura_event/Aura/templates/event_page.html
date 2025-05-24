@@ -1,0 +1,393 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Aura Events</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --accent-color: #ffeaa7;
+            --light-bg: #fff5e6;
+            --dark-text: #2d3436;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        /* Navbar styling (same as main page) */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 60px;
+            width: 300px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Product Detail Page Styles */
+        .product-detail-header {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .product-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-image {
+            border-radius: 8px;
+            max-height: 500px;
+            width: 100%;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .product-description {
+            margin-top: 2rem;
+            line-height: 1.8;
+        }
+        
+        .features-list {
+            margin-top: 1.5rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-icon {
+            color: var(--primary-color);
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .location-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .location-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        .location-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .location-icon {
+            color: #777;
+            margin-right: 1rem;
+        }
+        
+        .book-now-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+        
+        .book-now-btn:hover {
+            background-color: #5d4fd3;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+            color: white;
+        }
+        
+        .back-link {
+            color: #666;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .back-icon {
+            margin-right: 0.5rem;
+        }
+        
+        /* Footer styling (same as main page) */
+        .footer-section {
+            background: linear-gradient(135deg, #000000, #151517af);
+            color: #fff;
+            padding: 50px 0 20px;
+            margin-top: 4rem;
+        }
+        
+        .footer-heading {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-logo {
+            width: 100%;
+            max-width: 440px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        
+        .footer-bottom-links a:hover {
+            color: #fff;
+        }
+        
+        .logo-container {
+            padding: 0px;
+            border-radius: 5px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 767px) {
+            .product-title {
+                font-size: 2rem;
+            }
+            
+            .product-price {
+                font-size: 1.5rem;
+            }
+            
+            .product-image {
+                margin-bottom: 2rem;
+            }
+            
+            .footer-column {
+                margin-bottom: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+            }
+            
+            .footer-bottom-links {
+                margin-top: 15px;
+            }
+            
+            .logo-container {
+                margin-top: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}"  >
+                    <img src="{% static 'photos/Aura_event 1.png' %}" alt="Event Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'home' %}">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'about' %}">
+                                ABOUT US
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'gallery' %}">GALLERY</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'my_bookings' %}">MY BOOKINGS</a>
+                    </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'signout' %}">LOGOUT</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'signin' %}">LOGIN</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <a href="javascript:history.back()" class="back-link">
+            <i class="bi bi-arrow-left back-icon"></i> Back to Products
+        </a>
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="product-title">{{ product.name }}</h1>
+                <div class="product-price">₹{{ product.price }}</div>
+                
+                <div class="product-description">
+                    <p>{{ product.description }}</p>
+                </div>
+                
+                <div class="features-list">
+                    {% if product.features %}
+                        {% for feature in product.features %}
+                        <div class="feature-item">
+                            <i class="bi bi-check-circle-fill feature-icon"></i>
+                            <span>{{ feature }}</span>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="location-section">
+                    <h3 class="location-title">Location</h3>
+                    <div class="location-info">
+                        <i class="fa-solid fa-map-marker-alt location-icon"></i>
+                        <span>{{ product.location }}</span>
+                    </div>
+                </div>
+                
+                <a href="{% url 'checkout' product.id %}" class="btn book-now-btn">Book Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 footer-column">
+                    <h3 class="footer-heading">About Aura Events</h3>
+                    <p class="footer-text">
+                        Aura Event Management is Kerala's premier ISO 9001:2015 
+                        certified event management, specializing in weddings, 
+                        corporate events, and personal celebrations.
+                    </p>
+                </div>
+                <div class="col-md-3 footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Weddings</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-5 footer-column">
+                    <div class="logo-container">
+                        <img src="{% static 'photos/Aura_event.png' %}" alt="Aura Event Logo" class="footer-logo">
+                    </div>
+                </div>
+            </div>
+            <div class="row footer-bottom align-items-center">
+                <div class="col-md-6">
+                    <p class="copyright mb-md-0">© 2025 Aura Event Management. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

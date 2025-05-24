@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -389,65 +391,52 @@
 </section>
 <!--  -->
 
- <section id="Wedding" class="py-5">
+<section class="py-5">
     <div class="container">
-        <div class="text-center mb-5">
-            <h1 class="section-title">Wedding Management</h1>
-            <p class="lead">Comprehensive Event Management Solutions</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card event-card">
-                  <a href="#">
+
+        <!-- Products Section -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">{{ event.name }} Products & Packages</h2>
+            </div>
+            
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card event-card h-100">
                     <div class="card-img-container">
-                        <img src="../static/photos/Corporate Events.jpg" alt="Corporate Events" class="card-img-top">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
                     </div>
-                  </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="price fw-bold">₹{{ product.price }}</span>
+                            <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card event-card">
-                  <a href="{% url 'weding' %}">
-                    <div class="card-img-container">
-                        <img src="../static/photos/Weddings.jpg" alt="Weddings" class="card-img-top">
-                    </div>
-                  </a>
-                </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p>No products available for this event category yet.</p>
             </div>
-            <div class="col-md-4">
-                <div class="card event-card">
-                  <a href="#">
-                    <div class="card-img-container">
-                        <img src="../static/photos/Birthday Parties.webp" alt="Birthday Parties" class="card-img-top">
-                    </div>
-                  </a>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
-  </section>
+</section>
 
   <section id="Birthday" class="py-5">
     <div class="container">
         <div class="text-center mb-5">
             <h1 class="section-title">Birthday Parties</h1>
-            <p class="lead">Comprehensive Event Management Solutions</p>
+            <p class="lead">The main</p>
         </div>
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card event-card">
                   <a href="#">
                     <div class="card-img-container">
-                        <img src="../static/photos/Corporate Events.jpg" alt="Corporate Events" class="card-img-top">
-                    </div>
-                  </a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card event-card">
-                  <a href="{% url 'weding' %}">
-                    <div class="card-img-container">
-                        <img src="../static/photos/Weddings.jpg" alt="Weddings" class="card-img-top">
+                        <img src="../static/photos/wed auditoriam fd 2.webp" alt="Corporate Events" class="card-img-top">
                     </div>
                   </a>
                 </div>
@@ -456,7 +445,16 @@
                 <div class="card event-card">
                   <a href="#">
                     <div class="card-img-container">
-                        <img src="../static/photos/Birthday Parties.webp" alt="Birthday Parties" class="card-img-top">
+                        <img src="../static/photos/Birthday Parties.webp" alt="Weddings" class="card-img-top">
+                    </div>
+                  </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card event-card">
+                  <a href="#">
+                    <div class="card-img-container">
+                        <img src="../static/photos/wed auditoriam fd 3.jpg" alt="Birthday Parties" class="card-img-top">
                     </div>
                   </a>
                 </div>
@@ -476,16 +474,7 @@
                 <div class="card event-card">
                   <a href="#">
                     <div class="card-img-container">
-                        <img src="../static/photos/Corporate Events.jpg" alt="Corporate Events" class="card-img-top">
-                    </div>
-                  </a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card event-card">
-                  <a href="{% url 'weding' %}">
-                    <div class="card-img-container">
-                        <img src="../static/photos/Weddings.jpg" alt="Weddings" class="card-img-top">
+                        <img src="../static/photos/wed auditoriam car 1.webp" alt="Corporate Events" class="card-img-top">
                     </div>
                   </a>
                 </div>
@@ -494,7 +483,16 @@
                 <div class="card event-card">
                   <a href="#">
                     <div class="card-img-container">
-                        <img src="../static/photos/Birthday Parties.webp" alt="Birthday Parties" class="card-img-top">
+                        <img src="../static/photos/Corporate Events.jpg" alt="Weddings" class="card-img-top">
+                    </div>
+                  </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card event-card">
+                  <a href="#">
+                    <div class="card-img-container">
+                        <img src="../static/photos/wed auditoriam car 3.webp" alt="Birthday Parties" class="card-img-top">
                     </div>
                   </a>
                 </div>

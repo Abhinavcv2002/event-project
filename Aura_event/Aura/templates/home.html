@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +25,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--dark-text);
             background-color: var(--light-bg);
+        }
+        
+        /* Remove all underlines from links */
+        a {
+            text-decoration: none;
         }
         
         /* Hero Section Styles */
@@ -247,6 +254,7 @@
             border-color: #00a383;
         }
 
+        /* Event card styles - ensure no underlines */
         .card-title a {
             text-decoration: none;
             color: inherit; 
@@ -353,6 +361,12 @@
         .testimonial-text {
             margin-bottom: 20px;
             min-height: 100px;
+        }
+        
+        /* Ensure "Read more" links don't have underlines */
+        .testimonial-text a {
+            text-decoration: none;
+            color: var(--primary-color);
         }
         
         .client-profile {
@@ -573,7 +587,7 @@
     <!-- Hero Section with Background Image -->
     <section id="home" class="hero-section">
         <!-- Background Image -->
-        <img src="../static/photos/wed-slide.jpg" alt="Wedding Ceremony" class="hero-bg">
+        <img src="{% static 'photos/wed-slide.jpg' %}" alt="Wedding Ceremony" class="hero-bg">
         
         <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark">
@@ -595,15 +609,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#services" role="button" data-bs-toggle="dropdown" aria-expanded="false">SERVICES</a>
+                            <a class="nav-link active" href="#Events" role="button" data-bs-toggle="dropdown" aria-expanded="false">SERVICES</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="{% url 'gallery' %}">GALLERY</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="{% url 'contact' %}">CONTACT US</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'my_bookings' %}">MY BOOKINGS</a>
                         </li>
-                        {% if user.is_authenticated %}
+                            {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'signout' %}">LOGOUT</a>
                         </li>
@@ -662,53 +679,51 @@
   </section>
 
   <!-- Services Section -->
-  <section id="services" class="py-5">
+  <section id="Events" class="py-5">
       <div class="container">
-          <div class="text-center mb-5">
-              <h2 class="section-title">Our Services</h2>
-              <p class="lead">Comprehensive Event Management Solutions</p>
-          </div>
-          <div class="row g-4">
-              <div class="col-md-4">
-                  <div class="card event-card">
-                    <a href="{% url 'cop_event' %}">
-                      <div class="card-img-container">
-                          <img src="../static/photos/Corporate Events.jpg" alt="Corporate Events" class="card-img-top">
-                      </div>
-                    </a>    
-                      <div class="card-body">
-                          <h5 class="card-title">Corporate Events</h5>
-                          <p class="card-text">From product launches to annual meetings, we handle all aspects of your corporate events with professionalism.</p>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="card event-card">
-                    <a href="{% url 'weding' %}">
-                      <div class="card-img-container">
-                          <img src="../static/photos/Weddings.jpg" alt="Weddings" class="card-img-top">
-                      </div>
-                    </a>
-                      <div class="card-body">
-                          <h5 class="card-title">Wedding Management</h5>
-                          <p class="card-text">We create magical weddings that reflect your personality and culture, managing every detail from start to finish.</p>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="card event-card">
-                    <a href="{% url 'birthday' %}">
-                      <div class="card-img-container">
-                          <img src="../static/photos/Birthday Parties.webp" alt="Birthday Parties" class="card-img-top">
-                      </div>
-                    </a>
-                      <div class="card-body">
-                          <h5 class="card-title">Birthday Parties</h5>
-                          <p class="card-text">Birthday parties, anniversaries, and family reunions become special memories with our expert planning.</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
+<section id="events" class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Our Events</h2>
+            <p class="lead">Discover Our Specialized Event Services</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for event_item in events %}
+                <div class="col-md-4 mb-4">
+                    <div class="card event-card">
+                        <a href="{% url 'event_detail' event_item.id %}">
+                            <div class="card-img-container">
+                                {% if event_item.image %}
+                                    <img src="{{ event_item.image.url }}" alt="{{ event_item.name }}" class="card-img-top">
+                                {% elif event_item.product_set.first.image %}
+                                    <img src="{{ event_item.product_set.first.image.url }}" alt="{{ event_item.name }}" class="card-img-top">
+                                {% else %}
+                                    <img src="{% static 'photos/event-placeholder.jpg' %}" alt="{{ event_item.name }}" class="card-img-top">
+                                {% endif %}
+                            </div>
+                            <div class="card-body text-center">
+                                <h4 class="card-title">{{ event_item.name }}</h4>
+                                {% if event_item.description %}
+                                    <p class="card-text">{{ event_item.description }}</p>
+                                {% else %}
+                                    <p class="card-text">Explore our {{ event_item.name }} services and products</p>
+                                {% endif %}
+                                <div class="mt-3">
+                                    <span class="btn btn-outline-primary">View Details</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No events available at the moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
           <div class="row mt-5">
               <div class="col-md-4 mb-4">
                   <div class="text-center">
@@ -966,7 +981,7 @@
 </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-5 bg-white">
+  <!-- <section id="contact" class="py-5 bg-white">
       <div class="container">
           <div class="text-center mb-5">
               <h2 class="section-title">Contact Us</h2>
@@ -983,16 +998,6 @@
                       </div>
                       <div class="mb-3">
                           <input type="tel" class="form-control" placeholder="Your Phone">
-                      </div>
-                      <div class="mb-3">
-                          <select class="form-select">
-                              <option selected>Select Event Type</option>
-                              <option>Wedding</option>
-                              <option>Corporate Event</option>
-                              <option>Birthday Party</option>
-                              <option>Anniversary</option>
-                              <option>Other</option>
-                          </select>
                       </div>
                       <div class="mb-3">
                           <textarea class="form-control" rows="5" placeholder="Your Message"></textarea>
@@ -1027,7 +1032,7 @@
               </div>
           </div>
       </div>
-  </section>
+  </section> -->
 
   <!-- Footer -->
   <footer class="footer-section">
@@ -1099,4 +1104,4 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+</html>

@@ -1,0 +1,562 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout - Event Booking</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 60px;
+            width: 300px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        } 
+    
+    .container {
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+    
+    .venue-img {
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    
+    .food-item {
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .food-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .food-item.selected {
+      border: 2px solid #198754;
+    }
+    
+    .food-quantity {
+      width: 60px;
+    }
+
+    /* Footer styling (same as main page) */
+    .footer-section {
+        background: linear-gradient(135deg, #000000, #151517af);
+        color: #fff;
+        padding: 50px 0 20px;
+        margin-top: 4rem;
+    }
+    
+    .footer-heading {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+    
+    .footer-text {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+    
+    .footer-links {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .footer-links li {
+        margin-bottom: 15px;
+    }
+    
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+        color: #fff;
+    }
+    
+    .footer-logo {
+        width: 100%;
+        max-width: 440px;
+        margin-bottom: 20px;
+        display: block;
+    }
+    
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+        margin-top: 20px;
+    }
+    
+    .copyright {
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .footer-bottom-links a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        margin-left: 15px;
+        transition: color 0.3s;
+    }
+    
+    .footer-bottom-links a:hover {
+        color: #fff;
+    }
+    
+    .logo-container {
+        padding: 0px;
+        border-radius: 5px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    @media (max-width: 767px) {
+        .product-title {
+            font-size: 2rem;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+        }
+        
+        .product-image {
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column {
+            margin-bottom: 30px;
+        }
+        
+        .footer-bottom {
+            flex-direction: column;
+        }
+        
+        .footer-bottom-links {
+            margin-top: 15px;
+        }
+        
+        .logo-container {
+            margin-top: 30px;
+        }
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}"  >
+                    <img src="{% static 'photos/Aura_event 1.png' %}" alt="Event Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'home' %}">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'about' %}">
+                                ABOUT US
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'gallery' %}">GALLERY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'my_bookings' %}">MY BOOKINGS</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'signout' %}">LOGOUT</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'signin' %}">LOGIN</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+  <div class="container py-5">
+    
+    <h2 class="mb-4">Complete Your Booking</h2>
+    
+    <div class="row g-4">
+      <!-- Product Summary -->
+      <div class="col-lg-4">
+        <div class="card shadow-sm mb-4">
+          <img src="{{ product.image.url }}" class="product-img" alt="{{ product.name }}">
+          <div class="card-body">
+            <h3 class="card-title">{{ product.name }}</h3>
+            <p class="text-muted mb-2">{{ product.location }}</p>
+            <p class="mb-0"><strong>Event Type:</strong> {{ product.event.name }}</p>
+            <p class="mb-0"><strong>Capacity:</strong> {{ product.capacity }}</p>
+            <p class="mb-4"><strong>Price:</strong> ${{ product.price }} per hour</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Checkout Form -->
+      <div class="col-lg-8">
+        <form method="POST" id="bookingForm">
+          {% csrf_token %}
+          
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h4 class="mb-3">Booking Details</h4>
+              
+              <div class="mb-3">
+                <label for="bookingName" class="form-label">Booking Name</label>
+                <input type="text" class="form-control" id="bookingName" name="name" required>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="bookingDate" class="form-label">Event Date</label>
+                  <input type="date" class="form-control" id="bookingDate" name="date" required>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="duration" class="form-label">Duration (hours)</label>
+                <select class="form-select" id="duration" name="duration" required>
+                  <option value="">Select duration</option>
+                  <option value="1">1 hour</option>
+                  <option value="2">2 hours</option>
+                  <option value="3">3 hours</option>
+                  <option value="4">4 hours</option>
+                  <option value="5">5 hours</option>
+                  <option value="6">6 hours</option>
+                  <option value="7">7 hours</option>
+                  <option value="8">8 hours</option>
+                  <option value="full">Full day (12 hours)</option>
+                </select>
+              </div>
+              
+              <!-- Address Selection or New Address Form -->
+              <div class="mb-3">
+                <h5 class="mb-3">Contact Information</h5>
+                {% if addresses %}
+                <div class="mb-3">
+                  <label class="form-label">Select an existing address or add a new one</label>
+                  <select class="form-select mb-3" id="addressSelect" name="address_id">
+                    <option value="">Add a new address</option>
+                    {% for address in addresses %}
+                    <option value="{{ address.id }}">{{ address.name }} - {{ address.address }} ({{ address.phone }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                {% endif %}
+                
+                <div id="newAddressForm" {% if addresses %}class="d-none"{% endif %}>
+                  <div class="mb-3">
+                    <label for="contactName" class="form-label">Contact Name</label>
+                    <input type="text" class="form-control" id="contactName" name="contact_name">
+                  </div>
+                  <div class="mb-3">
+                    <label for="contactAddress" class="form-label">Address</label>
+                    <textarea class="form-control" id="contactAddress" name="contact_address" rows="2"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="contactPhone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="contactPhone" name="contact_phone">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Food Selection -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h4 class="mb-3">Food & Catering (Optional)</h4>
+              <p class="text-muted">Select food items for your event:</p>
+              
+              <div class="row g-3">
+                {% for item in food_items %}
+                <div class="col-md-6 col-lg-4">
+                  <div class="card food-item" data-food-id="{{ item.id }}" data-food-price="{{ item.price }}">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ item.name }}</h5>
+                      <p class="card-text text-muted">${{ item.price }} per item</p>
+                      <p class="card-text">{{ item.description|truncatechars:60 }}</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                          <input class="form-check-input food-checkbox" type="checkbox" name="food_items" value="{{ item.id }}" id="food{{ item.id }}">
+                          <label class="form-check-label" for="food{{ item.id }}">Select</label>
+                        </div>
+                        <div class="input-group food-quantity-group d-none">
+                          <button class="btn btn-sm btn-outline-secondary quantity-decrease" type="button">-</button>
+                          <input type="number" class="form-control form-control-sm text-center food-quantity" name="food_quantity_{{ item.id }}" value="1" min="1" max="{{ item.quantity|default:99 }}">
+                          <button class="btn btn-sm btn-outline-secondary quantity-increase" type="button">+</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                  <p>No food items available for selection.</p>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Order Summary -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h4 class="mb-3">Order Summary</h4>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Venue: {{ product.name }}</span>
+                <span id="venuePrice">${{ product.price }}/hour</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Duration: <span id="durationText">-</span></span>
+                <span id="durationPrice">$0.00</span>
+              </div>
+              <div id="foodItemsSummary">
+                <!-- Food items will be added here dynamically -->
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between fw-bold">
+                <span>Total:</span>
+                <span id="totalPrice">$0.00</span>
+              </div>
+              
+              <input type="hidden" id="totalPriceInput" name="total_price" value="0">
+            </div>
+          </div>
+          
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">Complete Booking</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+      <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 footer-column">
+                    <h3 class="footer-heading">About Aura Events</h3>
+                    <p class="footer-text">
+                        Aura Event Management is Kerala's premier ISO 9001:2015 
+                        certified event management, specializing in weddings, 
+                        corporate events, and personal celebrations.
+                    </p>
+                </div>
+                <div class="col-md-3 footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Weddings</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-5 footer-column">
+                    <div class="logo-container">
+                        <img src="{% static 'photos/Aura_event.png' %}" alt="Aura Event Logo" class="footer-logo">
+                    </div>
+                </div>
+            </div>
+            <div class="row footer-bottom align-items-center">
+                <div class="col-md-6">
+                    <p class="copyright mb-md-0">© 2025 Aura Event Management. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize date picker
+      flatpickr("#bookingDate", {
+        minDate: "today",
+        dateFormat: "Y-m-d"
+      });
+      
+      // Address selection handling
+      const addressSelect = document.getElementById('addressSelect');
+      const newAddressForm = document.getElementById('newAddressForm');
+      
+      if (addressSelect) {
+        addressSelect.addEventListener('change', function() {
+          if (this.value === '') {
+            newAddressForm.classList.remove('d-none');
+          } else {
+            newAddressForm.classList.add('d-none');
+          }
+        });
+      }
+      
+      // Food item selection
+      const foodCheckboxes = document.querySelectorAll('.food-checkbox');
+      const foodItems = document.querySelectorAll('.food-item');
+      const duration = document.getElementById('duration');
+      const venuePrice = {{ product.price }};
+      const durationText = document.getElementById('durationText');
+      const durationPriceElement = document.getElementById('durationPrice');
+      const totalPriceElement = document.getElementById('totalPrice');
+      const totalPriceInput = document.getElementById('totalPriceInput');
+      const foodItemsSummary = document.getElementById('foodItemsSummary');
+      
+      // Handle quantity buttons
+      document.querySelectorAll('.quantity-increase').forEach(button => {
+        button.addEventListener('click', function() {
+          const input = this.parentNode.querySelector('.food-quantity');
+          const max = parseInt(input.getAttribute('max'));
+          if (parseInt(input.value) < max) {
+            input.value = parseInt(input.value) + 1;
+            updateTotal();
+          }
+        });
+      });
+      
+      document.querySelectorAll('.quantity-decrease').forEach(button => {
+        button.addEventListener('click', function() {
+          const input = this.parentNode.querySelector('.food-quantity');
+          if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+            updateTotal();
+          }
+        });
+      });
+      
+      // Toggle food item selection
+      foodCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const foodItem = this.closest('.food-item');
+          const quantityGroup = foodItem.querySelector('.food-quantity-group');
+          
+          if (this.checked) {
+            foodItem.classList.add('selected');
+            quantityGroup.classList.remove('d-none');
+          } else {
+            foodItem.classList.remove('selected');
+            quantityGroup.classList.add('d-none');
+          }
+          
+          updateTotal();
+        });
+      });
+      
+      // Food items can also be clicked to select
+      foodItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          // Don't trigger when clicking on quantity controls
+          if (!e.target.closest('.food-quantity-group')) {
+            const checkbox = this.querySelector('.food-checkbox');
+            checkbox.checked = !checkbox.checked;
+            
+            // Trigger the change event
+            const event = new Event('change');
+            checkbox.dispatchEvent(event);
+          }
+        });
+      });
+      
+      // Update total when duration changes
+      duration.addEventListener('change', updateTotal);
+      
+      function updateTotal() {
+        let totalPrice = 0;
+        let durationHours = 0;
+        
+        // Calculate venue price based on duration
+        if (duration.value) {
+          if (duration.value === 'full') {
+            durationHours = 12;
+            durationText.textContent = 'Full day (12 hours)';
+          } else {
+            durationHours = parseInt(duration.value);
+            durationText.textContent = durationHours + ' hour' + (durationHours > 1 ? 's' : '');
+          }
+          
+          const venueTotalPrice = venuePrice * durationHours;
+          durationPriceElement.textContent = '$' + venueTotalPrice.toFixed(2);
+          totalPrice += venueTotalPrice;
+        } else {
+          durationText.textContent = '-';
+          durationPriceElement.textContent = '$0.00';
+        }
+        
+        // Clear previous food items
+        foodItemsSummary.innerHTML = '';
+        
+        // Add selected food items
+        foodCheckboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            const foodItem = checkbox.closest('.food-item');
+            const foodId = foodItem.dataset.foodId;
+            const foodPrice = parseFloat(foodItem.dataset.foodPrice);
+            const foodName = foodItem.querySelector('.card-title').textContent;
+            const quantityInput = foodItem.querySelector('.food-quantity');
+            const quantity = parseInt(quantityInput.value);
+            
+            // Add to the summary
+            const itemTotal = foodPrice * quantity;
+            const itemElement = document.createElement('div');
+            itemElement.className = 'd-flex justify-content-between mb-2';
+            itemElement.innerHTML = `
+              <span>${foodName} x ${quantity}</span>
+              <span>$${itemTotal.toFixed(2)}</span>
+            `;
+            foodItemsSummary.appendChild(itemElement);
+            
+            totalPrice += itemTotal;
+          }
+        });
+        
+        // Update total price display
+        totalPriceElement.textContent = '$' + totalPrice.toFixed(2);
+        totalPriceInput.value = totalPrice.toFixed(2);
+      }
+      
+      // Initial calculation
+      updateTotal();
+    });
+  </script>
+</body>
+</html>

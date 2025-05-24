@@ -1,0 +1,268 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking Confirmation - Event Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 60px;
+            width: 300px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        } 
+    
+    .container {
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+    
+    .confirmation-hero {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      text-align: center;
+      padding: 3rem 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+    }
+    
+    .confirmation-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    
+    .booking-card {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border: none;
+      border-radius: 10px;
+    }
+    
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    
+    .food-item-card {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .total-amount {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}"  >
+                <img src="{% static 'photos/Aura_event 1.png' %}" alt="Event Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'home' %}">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'about' %}">
+                            ABOUT US
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'gallery' %}">GALLERY</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'my_bookings' %}">MY BOOKINGS</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'signout' %}">LOGOUT</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'signin' %}">LOGIN</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+  <div class="container py-5">
+    <!-- Success Message -->
+    <div class="confirmation-hero">
+      <div class="confirmation-icon">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+      <h1 class="display-4 fw-bold">Booking Confirmed!</h1>
+      <p class="lead mb-0">Your event booking has been successfully processed</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Booking Details -->
+      <div class="col-lg-8">
+        <div class="card booking-card">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="bi bi-calendar-check me-2"></i>Booking Details</h4>
+          </div>
+          <div class="card-body">
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Booking ID:</span>
+              <span class="fw-bold">#{{ booking.id }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Booking Name:</span>
+              <span>{{ booking.name|default:"Event Booking" }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Venue:</span>
+              <span>{{ booking.product.name|default:"N/A" }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Event Date:</span>
+              <span>{{ booking.date|date:"F d, Y" }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Duration:</span>
+              <span>{{ booking.duration|default:"N/A" }} hours</span>
+            </div>
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Status:</span>
+              <span><span class="badge bg-success">{{ booking.status|default:"Confirmed" }}</span></span>
+            </div>
+            {% if booking.contact_name %}
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Contact Name:</span>
+              <span>{{ booking.contact_name }}</span>
+            </div>
+            {% endif %}
+            {% if booking.contact_phone %}
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Contact Phone:</span>
+              <span>{{ booking.contact_phone }}</span>
+            </div>
+            {% endif %}
+            {% if booking.contact_address %}
+            <div class="detail-row">
+              <span class="fw-bold text-muted">Contact Address:</span>
+              <span>{{ booking.contact_address }}</span>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Food Items (if any) -->
+        {% if food_items %}
+        <div class="card booking-card mt-4">
+          <div class="card-header bg-success text-white">
+            <h4 class="mb-0"><i class="bi bi-cup-hot me-2"></i>Food & Catering</h4>
+          </div>
+          <div class="card-body">
+            {% for item in food_items %}
+            <div class="food-item-card">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h6 class="fw-bold mb-1">{{ item.food_item.name|default:"Food Item" }}</h6>
+                  {% if item.food_item.description %}
+                  <p class="text-muted small mb-2">{{ item.food_item.description }}</p>
+                  {% endif %}
+                  <span class="text-primary">Quantity: {{ item.quantity }}</span>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold">${{ item.price|default:"0.00" }} each</div>
+                  <div class="text-success fw-bold">Total: ${{ item.total_price|default:item.price|default:"0.00" }}</div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Order Summary -->
+      <div class="col-lg-4">
+        <div class="card booking-card">
+          <div class="card-header bg-info text-white">
+            <h4 class="mb-0"><i class="bi bi-receipt me-2"></i>Order Summary</h4>
+          </div>
+          <div class="card-body">
+            <div class="detail-row">
+              <span>Venue Booking:</span>
+              <span>${{ booking.product.price|default:"0" }}/hour</span>
+            </div>
+            {% if booking.duration %}
+            <div class="detail-row">
+              <span>Duration ({{ booking.duration }} hours):</span>
+              <span>${{ booking.venue_total|default:booking.product.price|default:"0.00" }}</span>
+            </div>
+            {% endif %}
+            
+            {% if food_items %}
+            <div class="detail-row">
+              <span>Food & Catering:</span>
+              <span>${{ booking.food_total|default:"0.00" }}</span>
+            </div>
+            {% endif %}
+            
+            {% if booking.total_price %}
+            <div class="total-amount">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-bold fs-5">Total Amount:</span>
+                <span class="fw-bold fs-4 text-primary">${{ booking.total_price }}</span>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-grid gap-2 mt-4">
+          <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+            <i class="bi bi-house me-2"></i>Back to Home
+          </a>
+          <a href="{% url 'my_bookings' %}" class="btn btn-outline-secondary btn-lg">
+            <i class="bi bi-list me-2"></i>View All Bookings
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

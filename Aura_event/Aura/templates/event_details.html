@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -413,13 +415,13 @@
 <body>
     <section id="home" class="hero-section">
         <!-- Background Image -->
-        <img src="../static/photos/wedding decoration.webp" alt="Wedding Ceremony" class="hero-bg">
+        <img src="{% static 'photos/Weddings 2.jpg' %}" alt="Wedding Ceremony" class="hero-bg">
         
         <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'home' %}"  >
-                    <img src="../static/photos/Aura_event 1.png" alt="Event Logo">
+                    <img src="{% static 'photos/Aura_event 1.png' %}" alt="Event Logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -435,17 +437,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#Wedding" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                WEDDING FUN
-                            </a>
+                            <a class="nav-link active" href="{% url 'gallery' %}">GALLERY</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#Birthday" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                BIRTHDAY PARTY
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#Corporate">CORPORATE EVENT</a>
+                        <a class="nav-link active" href="{% url 'my_bookings' %}">MY BOOKINGS</a>
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
@@ -476,280 +471,39 @@
         </div>
     </section>
 
-    <div class="container-fluid gallery-container">
-        <div class="row">            
-            <!-- First row -->
-            <div class="col-md-6">
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/800x600" alt="Bride and Groom Chairs">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Special Touches</div>
-                        <div class="gallery-description">Personalized bride and groom seating arrangements in a natural setting.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/800x600" alt="Classical Dance Performance">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Artistic Performances</div>
-                        <div class="gallery-description">Captivating classical dance performances to entertain your guests.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="py-5">
+    <div class="container">
 
-    <!-- Alternative Layout with first image taller - Uncomment to use -->
-    <div class="container-fluid gallery-container">
+        <!-- Products Section -->
         <div class="row">
-            <div class="col-md-6">
-                <div class="gallery-item tall-item">
-                    <img src="https://via.placeholder.com/800x1200" alt="Indoor Wedding Dining Setup">
-                    <div class="gallery-overlay">
-                        <div class="gallery-title">Indoor Elegance</div>
-                        <div class="gallery-description">Beautifully decorated indoor dining space with floral arrangements and warm lighting.</div>
-                    </div>
-                </div>
+            <div class="col-12">
+                <h2 class="mb-4">{{ event.name }} Products & Packages</h2>
             </div>
             
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="gallery-item">
-                            <img src="https://via.placeholder.com/800x600" alt="Beach Sunset Dinner">
-                            <div class="gallery-overlay">
-                                <div class="gallery-title">Beach Sunset Dining</div>
-                                <div class="gallery-description">Romantic beach setup with a private dining pavilion against a stunning sunset backdrop.</div>
-                            </div>
-                        </div>
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card event-card h-100">
+                    <div class="card-img-container">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
                     </div>
-                    <div class="col-12">
-                        <div class="gallery-item">
-                            <img src="https://via.placeholder.com/800x600" alt="Traditional Drums">
-                            <div class="gallery-overlay">
-                                <div class="gallery-title">Cultural Performances</div>
-                                <div class="gallery-description">Traditional drum performances to enliven your special event.</div>
-                            </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="price fw-bold">₹{{ product.price }}</span>
+                        <a href="{% url 'event_page' product.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
                         </div>
                     </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p>No products available for this event category yet.</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
-
-    <!-- <-- Main Content -->
-    <div class="content-section">
-        <!-- Description Section -->
-        <div class="description-section">
-            <h2 class="section-title">Description</h2>
-            <p>
-                Villa Pinewood is a spacious and elegant villa that offers a comfortable and relaxing stay for up to 8 guests. It features 4 bedrooms, 3 bathrooms, a fully-equipped kitchen, and a spacious living room for your comfort. The villa is located on a hilltop, overlooking the beautiful ocean and the lush greenery. It is the perfect place to enjoy the sunrise and the sunset, as well as the fresh breeze and the tranquil atmosphere.
-            </p>
-        </div>
-
-        <!-- Facility Section -->
-        <div class="facility-section">
-            <h2 class="section-title">Facility</h2>
-            <div class="row">
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-bed facility-icon"></i>
-                        4 Bedrooms
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-bath facility-icon"></i>
-                        3 Bathrooms
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-kitchen-set facility-icon"></i>
-                        Kitchen
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-couch facility-icon"></i>
-                        Living Room
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-wifi facility-icon"></i>
-                        WiFi
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-swimming-pool facility-icon"></i>
-                        Private Pool
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-car facility-icon"></i>
-                        Parking Area
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Terms and Conditions -->
-        <div class="terms-section">
-            <h2 class="section-title">Terms and Conditions</h2>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <div class="facility-item">
-                        <i class="fa-regular fa-clock facility-icon"></i>
-                        Check In 02:00 PM and Check Out 12:00 PM
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-ban facility-icon"></i>
-                        No animals allowed
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-users facility-icon"></i>
-                        Maximum 8 guests
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="facility-item">
-                        <i class="fa-solid fa-glass-cheers facility-icon"></i>
-                        No Parties / Event
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Location Section with Full-Width Map -->
-    <h2 class="section-title content-section">Location</h2>
-    <div class="content-section">
-        <div class="location-info">
-            <div class="location-item">
-                <i class="fa-solid fa-clock location-icon"></i>
-                <span>10 minutes to supermarket</span>
-            </div>
-            <div class="location-item">
-                <i class="fa-solid fa-map-marker-alt location-icon"></i>
-                <span>Strategic area</span>
-            </div>
-            <div class="location-item">
-                <i class="fa-solid fa-coffee location-icon"></i>
-                <span>15 minutes to coffee shop</span>
-            </div>
-        </div>
-
-        <!-- Ratings and Reviews -->
-        <div class="ratings-section">
-            <h2 class="section-title">Ratings and Reviews</h2>
-            <p>Get a quick overview of the overall satisfaction from our guests</p>
-            
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <div class="rating-overview mb-4">
-                        <h3 class="display-2 mb-0">4.8</h3>
-                        <div class="review-stars mb-2">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star-half-alt"></i>
-                        </div>
-                        <p>Based on 63 reviews</p>
-                    </div>
-                </div>
-                
-                <div class="col-12 col-md-8">
-                    <div class="rating-breakdown mb-4">
-                        <div class="d-flex align-items-center mb-2">
-                            <span class="me-2">5</span>
-                            <div class="rating-bar flex-grow-1">
-                                <div class="rating-fill" style="width: 76%;"></div>
-                            </div>
-                            <span class="ms-2">(48)</span>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <span class="me-2">4</span>
-                            <div class="rating-bar flex-grow-1">
-                                <div class="rating-fill" style="width: 8%;"></div>
-                            </div>
-                            <span class="ms-2">(5)</span>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <span class="me-2">3</span>
-                            <div class="rating-bar flex-grow-1">
-                                <div class="rating-fill" style="width: 5%;"></div>
-                            </div>
-                            <span class="ms-2">(3)</span>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <span class="me-2">2</span>
-                            <div class="rating-bar flex-grow-1">
-                                <div class="rating-fill" style="width: 3%;"></div>
-                            </div>
-                            <span class="ms-2">(2)</span>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <span class="me-2">1</span>
-                            <div class="rating-bar flex-grow-1">
-                                <div class="rating-fill" style="width: 1.5%;"></div>
-                            </div>
-                            <span class="ms-2">(1)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Individual Reviews -->
-            <div class="review-card">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="avatar me-3">
-                        <i class="fa-solid fa-user-circle fa-2x"></i>
-                    </div>
-                    <div>
-                        <h5 class="mb-0">Ruben Dorwart</h5>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <small class="text-muted">April 2025</small>
-                    </div>
-                </div>
-                <p>Cozy, Luxurious. Stunning views. The villa was exactly as described, with everything we needed. The views were stunning, especially in the morning and evening. The hosts were very helpful and friendly. We highly recommend!</p>
-            </div>
-            
-            <div class="review-card">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="avatar me-3">
-                        <i class="fa-solid fa-user-circle fa-2x"></i>
-                    </div>
-                    <div>
-                        <h5 class="mb-0">Ethan</h5>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <small class="text-muted">March 2025</small>
-                    </div>
-                </div>
-                <p>Spacious, Elegant, Private pool. The villa was large and elegant, with enough room for everyone. The private pool was a big highlight for us. The villa's location near the beach was perfect, and the hosts provided a car service for us.</p>
-            </div>
-        </div>
-    </div>
+</section>
 
 <footer class="footer-section">
     <div class="container">
@@ -774,7 +528,7 @@
             </div>
             <div class="col-md-5 footer-column">
                 <div class="logo-container">
-                    <img src="../static/photos/Aura_event.png" alt="Aura Event Logo" class="footer-logo">
+                    <img src="{% static 'photos/Aura_event.png' %}" alt="Aura Event Logo" class="footer-logo">
                 </div>
             </div>
         </div>

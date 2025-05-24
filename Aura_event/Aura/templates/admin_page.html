@@ -1,150 +1,215 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Add New Product</title>
+  <title>Admin Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    .navbar {
+      background-color: #f8f8f8;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .container {
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+    .venue-card {
+      transition: all 0.3s;
+    }
+    .venue-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .venue-img {
+      height: 200px;
+      object-fit: cover;
+    }
+    .btn-action {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body class="bg-light">
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'admin_page' %}">
+        <span class="brand-text">EVENT MANAGEMENT</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_food' %}">
+              <i class="bi bi-plus-circle"></i> Add Food
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_add' %}">
+              <i class="bi bi-plus-circle"></i> Add Venue
+            </a>
+          </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signout' %}">LOGOUT</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signin' %}">LOGIN</a>
+            </li>
+            {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-<div class="container py-5">
-  <h2 class="mb-4">Add New Product</h2>
-  <form class="row g-4">
-
-    <!-- General Information -->
-    <div class="col-lg-8">
-      <div class="card p-4 shadow-sm">
-        <h5>General Information</h5>
-        <div class="mb-3">
-          <label for="productName" class="form-label">Name</label>
-          <input type="text" class="form-control" id="productName">
+  <div class="container py-5">
+    <!-- Display messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+      {% endfor %}
+    {% endif %}
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Venues</h2>
+      <a href="{% url 'admin_add' %}" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i> Add New Venue
+      </a>
+    </div>
 
-        <div class="mb-3">
-          <label for="productDescription" class="form-label">Description </label>
-          <textarea class="form-control" id="productDescription" rows="5"></textarea>
-        </div>
+    <!-- Filters -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <form method="GET" class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Category</label>
+            <select class="form-select" name="category">
+              <option value="">All Categories</option>
+              <option value="Corporate Events" {% if request.GET.category == 'Corporate Events' %}selected{% endif %}>Corporate Events</option>
+              <option value="Wedding Management" {% if request.GET.category == 'Wedding Management' %}selected{% endif %}>Wedding Management</option>
+              <option value="Birthday Parties" {% if request.GET.category == 'Birthday Parties' %}selected{% endif %}>Birthday Parties</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+          </div>
+        </form>
       </div>
     </div>
 
-    <!-- Upload Image -->
-    <div class="col-lg-4">
-      <div class="card p-4 shadow-sm">
-        <h5>Upload Image</h5>
-        <div class="mb-3">
-          <input class="form-control" type="file" id="uploadImg">
+    <!-- Venue Listings -->
+    <div class="row g-4">
+      {% if products %}
+        {% for product in products %}
+          <div class="col-md-6 col-lg-4">
+            <div class="card venue-card shadow-sm h-100">
+              {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top venue-img" alt="{{ product.name }}">
+              {% else %}
+                <div class="bg-light venue-img d-flex align-items-center justify-content-center">
+                  <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                </div>
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text text-muted mb-2">{{ product.price|floatformat:2 }} $</p>
+                <p class="card-text text-truncate">{{ product.description }}</p>
+                <p class="card-text"><small class="text-muted">{% if product.event %}Category: {{ product.event }}{% endif %}</small></p>
+              </div>
+              <div class="card-footer bg-white d-flex justify-content-end gap-2">
+                <a href="{% url 'admin_edit' product.id %}" class="btn btn-action btn-outline-primary">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <button type="button" class="btn btn-action btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ product.id }}">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal{{ product.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete <strong>{{ product.name }}</strong>? This action cannot be undone.
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{% url 'admin_remove' product.id %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-12">
+          <div class="alert alert-info">
+            No venues found. <a href="{% url 'admin_add' %}">Add a new venue</a> to get started.
+          </div>
         </div>
-        <div class="mb-3">
-            <input class="form-control" type="file" id="uploadImg">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="file" id="uploadImg">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="file" id="uploadImg">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="file" id="uploadImg">
-        </div>
-      </div>
+      {% endif %}
     </div>
 
-    <!-- Pricing and Stock -->
-    <div class="col-lg-6">
-      <div class="card p-4 shadow-sm">
-        <h5>Facility</h5>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="basePrice" class="form-label">Car Parking</label>
-            <input type="text" class="form-control" id="basePrice">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="stock" class="form-label">food</label>
-            <input type="text" class="form-control" id="stock">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="discount" class="form-label">Discount</label>
-            <input type="text" class="form-control" id="discount">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="discountType" class="form-label">Discount Type</label>
-            <input type="text" class="form-control" id="discountType">
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Pagination if needed -->
+    {% if products.has_other_pages %}
+      <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+          {% if products.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ products.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Previous</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">Previous</span>
+            </li>
+          {% endif %}
 
-    <div class="col-lg-6">
-        <div class="card p-4 shadow-sm">
-          <h5>Terms and Conditions</h5>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="basePrice" class="form-label">Opening and closing time</label>
-              <input type="text" class="form-control" id="basePrice" >
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="stock" class="form-label">Guests capacity</label>
-              <input type="text" class="form-control" id="stock">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="discount" class="form-label">Discount</label>
-              <input type="text" class="form-control" id="discount">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="discountType" class="form-label">Discount Type</label>
-              <input type="text" class="form-control" id="discountType">
-            </div>
-          </div>
-        </div>
-      </div>
+          {% for i in products.paginator.page_range %}
+            <li class="page-item {% if products.number == i %}active{% endif %}">
+              <a class="page-link" href="?page={{ i }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ i }}</a>
+            </li>
+          {% endfor %}
 
-      <div class="col-lg-6">
-        <div class="card p-4 shadow-sm">
-          <h5>Location</h5>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="basePrice" class="form-label">Option 1</label>
-              <input type="text" class="form-control" id="basePrice">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="stock" class="form-label">Option 2</label>
-              <input type="text" class="form-control" id="stock">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="discount" class="form-label">Option 3</label>
-              <input type="text" class="form-control" id="discount">
-            </div>
-          </div>
-        </div>
-      </div>
+          {% if products.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ products.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">Next</span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+  </div>
 
-    <!-- Category -->
-    <div class="col-lg-6">
-      <div class="card p-4 shadow-sm">
-        <h5>Category</h5>
-        <div class="mb-3">
-          <label for="productCategory" class="form-label">Product Category</label>
-          <select class="form-select" id="productCategory">
-            <option selected>Jacket</option>
-            <option>Shirt</option>
-            <option>T-Shirt</option>
-            <option>Accessories</option>
-          </select>
-        </div>
-        <button class="btn btn-success w-100">Add Category</button>
-      </div>
-    </div>
-
-    <!-- Buttons -->
-    <div class="col-12 d-flex justify-content-end gap-3">
-      <button type="button" class="btn btn-outline-secondary">Save Draft</button>
-      <button type="submit" class="btn btn-success">Add Product</button>
-    </div>
-
-  </form>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
